@@ -5,8 +5,11 @@ import { CiSearch } from "react-icons/ci";
 import { HiSpeakerphone } from "react-icons/hi";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { RiArrowDropDownLine } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
+
 export default function HeaderDashboard() {
   const [start, setStart] = useState(true);
+  const navigate = useNavigate();
   return (
     <>
       <Wrapper>
@@ -14,7 +17,7 @@ export default function HeaderDashboard() {
           <div className="headProfile">
             <div className="profCont">
               <div className="prof">
-                <img src="./images1/nishyan.svg" alt="logo" className="logo" />
+                <img src="./swarmsentry_logo.png" alt="logo" />
                 <div className="text">
                   <h5>crazy_colden</h5>
                   <h6>64aea16def29</h6>
@@ -24,7 +27,7 @@ export default function HeaderDashboard() {
           </div>
           <div className="head2">
             <div className="el1">
-              <h5>Payouts</h5>
+              <h5>Dashboard</h5>
               <div className="howit">
                 <GoQuestion />
                 <p>How it works</p>
@@ -36,14 +39,17 @@ export default function HeaderDashboard() {
             </div>
             <div className="icons">
               {start ? (
-                <button onClick={()=>setStart(!start)} className="stop">
-                  Stop Container
+                <button onClick={() => setStart(!start)} className="stop">
+                  Stop Cont
                 </button>
               ) : (
-                <button onClick={()=>setStart(!start)} className="start">
-                  Run Container
+                <button onClick={() => setStart(!start)} className="start">
+                  Run Cont
                 </button>
               )}
+              <button onClick={() => navigate("/")} className="delete">
+                Delete
+              </button>
             </div>
           </div>
         </div>
@@ -87,6 +93,9 @@ const Wrapper = styled.div`
           justify-content: center;
           align-items: center;
           gap: 0.8rem;
+          .swarmsentry_logo {
+            width: 1rem;
+          }
         }
         img {
           width: 5rem;
@@ -200,6 +209,10 @@ const Wrapper = styled.div`
         .stop {
           background-color: #ffcbcb;
           color: #8c1313;
+        }
+        .delete {
+          background-color: #999999;
+          color: #2d2d2d;
         }
       }
     }
