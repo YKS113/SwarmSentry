@@ -7,7 +7,7 @@ const Main = () => {
 
   const [active, setActive] = useState("Home");
   
-  return (
+  return(
     <Wrapper>
       <RightDashboard/>
     </Wrapper>
