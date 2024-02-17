@@ -6,49 +6,10 @@ import { useState} from 'react'
 const Main = () => {
 
   const [active, setActive] = useState("Home");
-  let Rightcomponent;
-  
-  switch(active) {
-    case "Home":
-      Rightcomponent=<></>
-      break;
-    case "Orders":
-      Rightcomponent=<></>
-      break;
-      case "Products":
-        Rightcomponent=<></>
-      break;
-      case "Delivery":
-        Rightcomponent=<></>
-      break;
-      case "Marketing":
-        Rightcomponent=<></>
-      break;
-      case "Analytics":
-        Rightcomponent=<></>
-      break;
-      case "Payouts":
-        Rightcomponent=<RightDashboard />
-      break;
-      case "Discounts":
-        Rightcomponent=<></>
-      break;
-      case "Audience":
-        Rightcomponent=<></>
-      break;
-      case "Appearance":
-        Rightcomponent=<></>
-      break;
-      case "Plugins":
-        Rightcomponent=<></>
-      break;
-  } 
-
   
   return (
     <Wrapper>
-    {/* <Left active={active} setActive={setActive}/> */}
-    {Rightcomponent}
+      <RightDashboard/>
     </Wrapper>
   )
 }
