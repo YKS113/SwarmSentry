@@ -31,7 +31,6 @@ const ContainersTable = () => {
       const data = await response.json();
       setData(data);
       setCardData(calculateConts(data));
-      console.log(data);
     } catch (error) {
       console.error("Error:", error);
     }

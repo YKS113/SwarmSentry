@@ -31,10 +31,7 @@ app.get("/container/:id", async (req, res) => {
   });
   const container = docker.getContainer(id);
   const stats = await container.stats({ stream: false });
-  if (
-    stats.cpu_stats.cpu_usage.total_usage / stats.cpu_stats.system_cpu_usage >
-    30
-  ) {
+  if ((stats.memory_stats.usage / stats.memory_stats.limit) * 100 > 0) {
     sendEmail("New data generated!", "Details: ...");
   }
   res.json({ stats, state });
@@ -82,45 +79,50 @@ app.get("/start/:id", async (req, res) => {
   });
 });
 
-// app.get("/logs/:id", async (req, res) => {
-//   const { id } = req.params;
-//   const container = docker.getContainer(id);
+app.get("/logs/:id", (req, res) => {
+  const { id } = req.params;
 
-//   // Create a stream to receive the logs
-//   const logStream = process.stdout;
+  // Create a stream to receive the logs
+  // const logStream = process.stdout;
 
-//   const options = {
-//     stderr: true,
-//     stdout: true,
-//     follow: true,
-//   };
+  const options = {
+    stderr: true,
+    stdout: true,
+    follow: true,
+  };
 
-//   const stream = await container.logs(options);
-//   container.modem.demuxStream(stream, logStream, logStream);
+  docker.getContainer(id).logs(options, (err, logs) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
 
-//   res.json({ stream: JSON.parse(stream) });
+    res.json(logs.toString());
+  });
 
-//   // res.setHeader("Content-Type", "text/event-stream");
-//   // container.logs(options, (err, stream) => {
-//   //   if (err) {
-//   //     console.error(err);
-//   //     return;
-//   //   }
-//   //   res.json(stream);
-//   // });
-// });
+  // res.setHeader("Content-Type", "text/event-stream");
+  // container.logs(options, (err, stream) => {
+  //   if (err) {
+  //     console.error(err);
+  //     return;
+  //   }
+  //   res.json(stream);
+  // });
+});
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  name: "smtp.ethereal.email",
+  host: "smtp.ethereal.email",
+  port: 465 ,
   auth: {
-    user: "jaideep.jambhale@gmail.com", // Replace with your email address
-    pass: "your_email_password", // Replace with your email password
+    user: "dahlia.damore16@ethereal.email", // Replace with your email address
+    pass: "JjayDvq7sktkhvEerG", // Replace with your email password
   },
 });
 function sendEmail(subject, body) {
   const mailOptions = {
-    from: "jaideep.jambhale@gmail.com", // Replace with your email address
-    to: "yksworks113@gmail.com", // Replace with the recipient's email address
+    from: "dahlia.damore16@ethereal.email", // Replace with your email address
+    to: "guptaanirudh179@gmail.com", // Replace with the recipient's email address
     subject: subject,
     text: body,
   };

@@ -61,19 +61,25 @@ const RightDashboard = () => {
   };
 
   const fetchLogs = async () => {
-    const eventSource = new EventSource(`/logs/${id}`);
+    try {
+      const response = await fetch(`/logs/${id}`);
+      const data = await response.json();
+      setLogsData(data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+    // const eventSource = new EventSource(`/logs/${id}`);
 
-    eventSource.onmessage = (event) => {
-      // Parse and update logs state
-      setLogsData((prevLogs) => [...prevLogs, event.data]);
-    };
+    // eventSource.onmessage = (event) => {
+    //   // Parse and update logs state
+    //   setLogsData((prevLogs) => [...prevLogs, event.data]);
+    // };
 
-    eventSource.onerror = (error) => {
-      console.error('Error with EventSource:', error);
-      eventSource.close();
-    };
+    // eventSource.onerror = (error) => {
+    //   console.error('Error with EventSource:', error);
+    //   eventSource.close();
+    // };
   };
-
 
   useEffect(() => {
     fetchData();
@@ -136,8 +142,15 @@ const RightDashboard = () => {
       <div className="title">
         <h3>Overview</h3>
         <div className="overview-container">
-          <div className="card"><CardDashboard e1={"PId/T"} e2={data?.stats?.pids_stats?.current} e3={""} e4={"blue"}/></div>
-          
+          <div className="card">
+            <CardDashboard
+              e1={"PId/T"}
+              e2={data?.stats?.pids_stats?.current}
+              e3={""}
+              e4={"blue"}
+            />
+          </div>
+
           {/* <div className="card">
             {data?.stats?.pids_stats?.current ? (
               <>
@@ -198,7 +211,7 @@ const RightDashboard = () => {
                 setActive("logs");
               }}
             >
-             Logs
+              Logs
             </div>
           </div>
           <div className="buttons">
@@ -264,7 +277,7 @@ const RightDashboard = () => {
             )}
           </div>
         ) : (
-          <LogsTable TableData={logsData}/>
+          <LogsTable TableData={logsData} />
         )}
       </>
     </Wrapper>
@@ -284,7 +297,7 @@ const Wrapper = styled.section`
       display: flex;
       justify-content: space-between;
       align-items: center;
-      .card{
+      .card {
         width: 30%;
       }
       // .card {
