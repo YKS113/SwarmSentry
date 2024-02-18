@@ -31,7 +31,7 @@ app.get("/container/:id", async (req, res) => {
   });
   const container = docker.getContainer(id);
   const stats = await container.stats({ stream: false });
-  if ((stats.memory_stats.usage / stats.memory_stats.limit) * 100 > 0) {
+  if ((stats.memory_stats.usage / stats.memory_stats.limit) * 100 > 70) {
     sendEmail("New data generated!", "Details: ...");
   }
   res.json({ stats, state });
@@ -113,7 +113,7 @@ app.get("/logs/:id", (req, res) => {
 const transporter = nodemailer.createTransport({
   name: "smtp.ethereal.email",
   host: "smtp.ethereal.email",
-  port: 465 ,
+  port: 587,
   auth: {
     user: "dahlia.damore16@ethereal.email", // Replace with your email address
     pass: "JjayDvq7sktkhvEerG", // Replace with your email password
